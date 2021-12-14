@@ -1,9 +1,11 @@
+import _ from 'lodash';
+
 const buildSearchEngine = (docs) => {
   const totalDocs = docs.length;
   const tfidf = (docValue, length) => docValue.tf() * Math.log(totalDocs / length);
 
   const index = docs.reduce((acc, doc) => {
-    const words = doc.text.split(' ');
+    const words = _.compact(doc.text.split(' '));
     const wordsLength = words.length;
     console.log(words, 'WORDS');
     words
