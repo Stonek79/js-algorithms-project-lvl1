@@ -1,5 +1,5 @@
 {
-  "name": "hexlet-code",
+  "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Simple search engine",
   "main": "index.js",
