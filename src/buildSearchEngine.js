@@ -1,41 +1,51 @@
 const buildSearchEngine = (docs) => {
-  const index = docs.reduce((acc, item) => {
-    const words = item.text.split(' ');
+  const totalDocs = docs.length;
+  const tfidf = (docValue, length) => docValue.tf() * Math.log(totalDocs / length);
+
+  const index = docs.reduce((acc, doc) => {
+    const words = doc.text.split(' ');
     const wordsLength = words.length;
     words
       .map((i) => i.match(/\w+/g)[0])
       .forEach((w) => {
         if (acc[w]) {
-          if (acc[w][item.id]) {
-            acc[w][item.id].count += 1;
-            acc[w][item.id].tf = acc[w][item.id].count / wordsLength;
-            return acc[w][item.id];
+          if (acc[w][doc.id]) {
+            acc[w][doc.id].count += 1;
+            return acc[w][doc.id];
           }
-          acc[w][item.id] = { count: 1, tf: 1 / wordsLength };
-          return acc[w][item.id];
+          acc[w][doc.id] = { count: 1, tf() { return this.count / wordsLength; } };
+          return acc[w][doc.id];
         }
-        acc[w] = { [item.id]: { count: 1, tf: 1 / wordsLength } };
+        acc[w] = {
+          [doc.id]: { count: 1, tf() { return this.count / wordsLength; } },
+        };
         return acc[w];
       });
     return acc;
   }, {});
 
-  console.log(index);
-  const search = (words) => docs
-    .map(({ id, text }) => {
-      const totalMatch = words
-        .split(' ')
-        .map((word) => [text.match(new RegExp(`(\\b${word}\\b)`, 'g'))][0])
-        .filter((i) => !!i);
-      const allMatch = totalMatch.flat().filter((i) => !!i);
-      return {
-        id, text, totalMatch: totalMatch.length, allMatch: allMatch.length,
-      };
-    })
-    .filter(({ allMatch }) => !!allMatch)
-    .sort((a, b) => (a.allMatch < b.allMatch ? 1 : -1))
-    .sort((a, b) => (a.totalMatch < b.totalMatch ? 1 : -1))
-    .map(({ id }) => id);
+  const search = (words) => {
+    const docsTfidf = words
+      .toString()
+      .split(' ')
+      .map((i) => i && i.match(/\w+/g)[0])
+      .reduce((acc, w) => {
+        if (!index[w]) return acc;
+        const wordsDocs = Object.entries(index[w]);
+        const wordsLength = wordsDocs.length;
+        wordsDocs.forEach(([k, v]) => {
+          acc[k] = acc[k] ? (acc[k] += tfidf(v, wordsLength)) : tfidf(v, wordsLength);
+        });
+        return acc;
+      }, {});
+    return Object.entries(docsTfidf)
+      .sort((a, b) => {
+        if (a[1] < b[1]) return 1;
+        if (a[1] > b[1]) return -1;
+        return 0;
+      })
+      .map(([doc]) => doc);
+  };
   return { search };
 };
 
