@@ -2,7 +2,7 @@ install:
 	npm ci
 
 start:
-	node bin/searchengine.js
+	node index.js
 
 test:
 	npm test

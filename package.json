@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "Simple search engine",
   "main": "index.js",
-  "bin": {
-    "search-engine": "bin/searchengine.js"
+  "scripts": {
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest npx jest . --watch"
   },
   "engines": {
     "node": ">=14"
-  },
-  "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "repository": {
     "type": "git",

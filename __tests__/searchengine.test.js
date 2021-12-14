@@ -1,4 +1,4 @@
-import searchEngine from '../bin/searchengine.js';
+import searchEngine from '../index.js';
 
 const doc1 = {
   id: 'doc1',
