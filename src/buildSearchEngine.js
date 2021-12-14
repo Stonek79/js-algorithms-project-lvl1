@@ -5,8 +5,12 @@ const buildSearchEngine = (docs) => {
   const index = docs.reduce((acc, doc) => {
     const words = doc.text.split(' ');
     const wordsLength = words.length;
+    console.log(words, 'WORDS');
     words
-      .map((i) => i.match(/\w+/g)[0])
+      .map((i) => {
+        console.log(i, 'MAP');
+        return i.match(/\w+/g)[0];
+      })
       .forEach((w) => {
         if (acc[w]) {
           if (acc[w][doc.id]) {
