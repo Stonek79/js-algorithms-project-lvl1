@@ -33,11 +33,11 @@ describe('Search:', () => {
     const searchData = searchEngine(docs);
 
     expect(searchData.search('shoot')).toStrictEqual(['doc2', 'doc1']);
-    // expect(searchData.search('shoot!')).toStrictEqual(['doc2', 'doc1']);
-    // expect(searchData.search('shooter')).toStrictEqual(['doc3', 'doc4']);
-    // expect(searchData.search('shoot at me')).toStrictEqual(['doc2', 'doc1']);
-    // expect(searchData.search('shoot shooter')).toStrictEqual(['doc2', 'doc3', 'doc4', 'doc1']);
-    // expect(searchData.search(true)).toStrictEqual(['doc4']);
+    expect(searchData.search('shoot!')).toStrictEqual(['doc2', 'doc1']);
+    expect(searchData.search('shooter')).toStrictEqual(['doc3', 'doc4']);
+    expect(searchData.search('shoot at me')).toStrictEqual(['doc2', 'doc1']);
+    expect(searchData.search('shoot shooter')).toStrictEqual(['doc2', 'doc3', 'doc4', 'doc1']);
+    expect(searchData.search(true)).toStrictEqual(['doc4']);
   });
 
   test('empty', () => {
@@ -51,7 +51,6 @@ describe('Search:', () => {
 
   test('big texts', () => {
     const searchData = searchEngine(textFiles);
-    console.log(searchData.search('trash island'));
 
     expect(searchData.search('')).toStrictEqual([]);
     expect(searchData.search('trash island')).toStrictEqual(['text3', 'text1', 'text2', 'text4']);
