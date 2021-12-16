@@ -41,8 +41,8 @@ const buildSearchEngine = (docs) => {
     console.log(docsTfidf);
     return Object.entries(docsTfidf)
       .sort((a, b) => {
-        if (a[1] > b[1]) return 1;
-        if (a[1] < b[1]) return -1;
+        if (+a[1].toFixed(5) > +b[1].toFixed(5)) return 1;
+        if (+a[1].toFixed(5) < +b[1].toFixed(5)) return -1;
         return 0;
       })
       .map(([doc]) => doc);
