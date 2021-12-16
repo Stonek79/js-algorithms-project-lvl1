@@ -3,16 +3,10 @@ import _ from 'lodash';
 const buildSearchEngine = (docs) => {
   const totalDocs = docs.length;
   const tfidf = (docValue, length) => docValue.tf() * Math.log(totalDocs / length);
-
   const index = docs.reduce((acc, doc) => {
-    const words = _.compact(doc.text.split(' '));
+    const words = _.compact(doc.text.split(new RegExp(/\W/, 'g')));
     const wordsLength = words.length;
-    console.log(words, 'WORDS');
     words
-      .map((i) => {
-        console.log(i, 'MAP');
-        return i.match(/\w+/g)[0];
-      })
       .forEach((w) => {
         if (acc[w]) {
           if (acc[w][doc.id]) {
