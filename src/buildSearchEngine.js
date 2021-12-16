@@ -25,7 +25,6 @@ const buildSearchEngine = (docs) => {
   }, {});
 
   const search = (words) => {
-    console.log(words, index);
     const docsTfidf = words
       .toString()
       .split(' ')
@@ -39,10 +38,11 @@ const buildSearchEngine = (docs) => {
         });
         return acc;
       }, {});
+    console.log(docsTfidf);
     return Object.entries(docsTfidf)
       .sort((a, b) => {
-        if (a[1] < b[1]) return 1;
-        if (a[1] > b[1]) return -1;
+        if (a[1] > b[1]) return 1;
+        if (a[1] < b[1]) return -1;
         return 0;
       })
       .map(([doc]) => doc);
