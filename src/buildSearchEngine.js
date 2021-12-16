@@ -4,7 +4,7 @@ const buildSearchEngine = (docs) => {
   const totalDocs = docs.length;
   const tfidf = (docValue, length) => docValue.tf() * Math.log(totalDocs / length);
   const index = docs.reduce((acc, doc) => {
-    const words = _.compact(doc.text.split(new RegExp(/\W/, 'g')));
+    const words = _.compact(doc.text.toLowerCase().split(new RegExp(/\W/, 'g')));
     const wordsLength = words.length;
     words
       .forEach((w) => {
@@ -34,8 +34,10 @@ const buildSearchEngine = (docs) => {
         const wordsDocs = Object.entries(index[w]);
         const wordsLength = wordsDocs.length;
         wordsDocs.forEach(([k, v]) => {
+          console.log(w, wordsDocs, v.tf(), wordsLength, totalDocs, tfidf(v, wordsLength));
           acc[k] = acc[k] ? (acc[k] += tfidf(v, wordsLength)) : tfidf(v, wordsLength);
         });
+        console.log(acc);
         return acc;
       }, {});
     console.log(docsTfidf);

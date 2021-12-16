@@ -37,16 +37,16 @@ describe('Search:', () => {
     // expect(searchData.search('shooter')).toStrictEqual(['doc3', 'doc4']);
     // expect(searchData.search('shoot at me')).toStrictEqual(['doc2', 'doc1']);
     // expect(searchData.search('shoot shooter')).toStrictEqual(['doc2', 'doc3', 'doc4', 'doc1']);
-    expect(searchData.search(true)).toStrictEqual(['doc4']);
+    // expect(searchData.search(true)).toStrictEqual(['doc4']);
   });
 
   test('empty', () => {
     const searchData = searchEngine([]);
 
     expect(searchData.search('shoot')).toStrictEqual([]);
-    expect(searchData.search('')).toStrictEqual([]);
-    expect(searchData.search(42)).toStrictEqual([]);
-    expect(searchData.search(false)).toStrictEqual([]);
+    // expect(searchData.search('')).toStrictEqual([]);
+    // expect(searchData.search(42)).toStrictEqual([]);
+    // expect(searchData.search(false)).toStrictEqual([]);
   });
 
   test('big texts', () => {
