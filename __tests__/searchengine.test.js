@@ -32,7 +32,7 @@ describe('Search:', () => {
   test('success', () => {
     const searchData = searchEngine(docs);
 
-    expect(searchData.search('shoot')).toStrictEqual(['doc1', 'doc2']);
+    expect(searchData.search('shoot')).toStrictEqual(['doc2', 'doc1']);
     // expect(searchData.search('shoot!')).toStrictEqual(['doc2', 'doc1']);
     // expect(searchData.search('shooter')).toStrictEqual(['doc3', 'doc4']);
     // expect(searchData.search('shoot at me')).toStrictEqual(['doc2', 'doc1']);
@@ -44,15 +44,16 @@ describe('Search:', () => {
     const searchData = searchEngine([]);
 
     expect(searchData.search('shoot')).toStrictEqual([]);
-    // expect(searchData.search('')).toStrictEqual([]);
-    // expect(searchData.search(42)).toStrictEqual([]);
-    // expect(searchData.search(false)).toStrictEqual([]);
+    expect(searchData.search('')).toStrictEqual([]);
+    expect(searchData.search(42)).toStrictEqual([]);
+    expect(searchData.search(false)).toStrictEqual([]);
   });
 
   test('big texts', () => {
     const searchData = searchEngine(textFiles);
+    console.log(searchData.search('trash island'));
 
     expect(searchData.search('')).toStrictEqual([]);
-    // expect(searchData.search('trash island')).toStrictEqual(['text1', 'text2', 'text4']);
+    expect(searchData.search('trash island')).toStrictEqual(['text3', 'text1', 'text2', 'text4']);
   });
 });

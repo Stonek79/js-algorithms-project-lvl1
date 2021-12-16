@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const buildSearchEngine = (docs) => {
   const totalDocs = docs.length;
-  const tfidf = (docValue, length) => docValue.tf() * Math.log(totalDocs / length);
+  const tfidf = (docValue, length) => docValue.tf() * Math.log1p(totalDocs / length);
   const index = docs.reduce((acc, doc) => {
     const words = _.compact(doc.text.toLowerCase().split(new RegExp(/\W/, 'g')));
     const wordsLength = words.length;
@@ -34,17 +34,15 @@ const buildSearchEngine = (docs) => {
         const wordsDocs = Object.entries(index[w]);
         const wordsLength = wordsDocs.length;
         wordsDocs.forEach(([k, v]) => {
-          console.log(w, wordsDocs, v.tf(), wordsLength, totalDocs, tfidf(v, wordsLength));
           acc[k] = acc[k] ? (acc[k] += tfidf(v, wordsLength)) : tfidf(v, wordsLength);
         });
-        console.log(acc);
         return acc;
       }, {});
     console.log(docsTfidf);
     return Object.entries(docsTfidf)
       .sort((a, b) => {
-        if (+a[1].toFixed(5) > +b[1].toFixed(5)) return 1;
-        if (+a[1].toFixed(5) < +b[1].toFixed(5)) return -1;
+        if (a[1] < b[1]) return 1;
+        if (a[1] > b[1]) return -1;
         return 0;
       })
       .map(([doc]) => doc);
