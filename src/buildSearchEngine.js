@@ -25,6 +25,7 @@ const buildSearchEngine = (docs) => {
   }, {});
 
   const search = (words) => {
+    console.log(words, index);
     const docsTfidf = words
       .toString()
       .split(' ')
